@@ -40,17 +40,17 @@ public class Level {
 
 		tileMap = new int[TILE_IN_HEIGTH][TILE_IN_WIDTH];
 
-		tileMap[10][10] = TileType.BRICK.numeric();
-		tileMap[10][11] = TileType.BRICK.numeric();
-		tileMap[10][12] = TileType.BRICK.numeric();
-		tileMap[10][13] = TileType.BRICK.numeric();
-		tileMap[11][10] = TileType.BRICK.numeric();
-		tileMap[11][11] = TileType.BRICK.numeric();
-		tileMap[11][12] = TileType.BRICK.numeric();
-		tileMap[11][13] = TileType.BRICK.numeric();
-		tileMap[36][49] = TileType.BRICK.numeric();
-		tileMap[11][36] = TileType.BRICK.numeric();
-		tileMap[30][36] = TileType.BRICK.numeric();
+//		tileMap[10][10] = TileType.BRICK.numeric();
+//		tileMap[10][11] = TileType.BRICK.numeric();
+//		tileMap[10][12] = TileType.BRICK.numeric();
+//		tileMap[10][13] = TileType.BRICK.numeric();
+//		tileMap[11][10] = TileType.BRICK.numeric();
+//		tileMap[11][11] = TileType.BRICK.numeric();
+//		tileMap[11][12] = TileType.BRICK.numeric();
+//		tileMap[11][13] = TileType.BRICK.numeric();
+//		tileMap[36][49] = TileType.BRICK.numeric();
+//		tileMap[11][36] = TileType.BRICK.numeric();
+//		tileMap[30][36] = TileType.BRICK.numeric();
 
 	}
 
