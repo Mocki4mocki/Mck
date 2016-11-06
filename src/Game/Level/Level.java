@@ -2,10 +2,12 @@ package Game.Level;
 
 import Game.Game;
 import Graphics.*;
+import Utils.Utils;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.FileNotFoundException;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Mocki on 02.11.2016.
@@ -13,16 +15,20 @@ import java.util.Map;
 
 public class Level {
 
-	public static final int TILE_SCALE 			= 8;
-	public static final int	TILE_IN_GAMN_SCALE 	= 2;
-	public static final int SCALE_TILE_SIZE		= TILE_SCALE * TILE_IN_GAMN_SCALE;
-	public static final int TILE_IN_WIDTH 		= Game.WIDTH / SCALE_TILE_SIZE;
-	public static final int TILE_IN_HEIGTH 		= Game.HEIGHT / SCALE_TILE_SIZE;
+	public static final int 	TILE_SCALE 			= 8;
+	public static final int		TILE_IN_GAMN_SCALE 	= 2;
+	public static final int 	SCALE_TILE_SIZE		= TILE_SCALE * TILE_IN_GAMN_SCALE;
+	public static final int 	TILE_IN_WIDTH 		= Game.WIDTH / SCALE_TILE_SIZE;
+	public static final int 	TILE_IN_HEIGHT 		= Game.HEIGHT / SCALE_TILE_SIZE;
 
-	private int [][] 			tileMap;
+	private Integer [][] 		tileMap;
 	private Map<TileType, Tile>	tiles;
+	private List<Point> 		grassCords;
 
 	public Level(TextureAtlas atlas) {
+
+		tileMap = new Integer[TILE_IN_WIDTH][TILE_IN_HEIGHT];
+
 
 		tiles = new HashMap<TileType, Tile>();
 		tiles.put(TileType.BRICK, new Tile(atlas.cut(32 * TILE_SCALE, 0 * TILE_SCALE,
@@ -38,14 +44,20 @@ public class Level {
 		tiles.put(TileType.EMPTY, new Tile(atlas.cut(36 * TILE_SCALE, 6 * TILE_SCALE,
 				TILE_SCALE, TILE_SCALE), TILE_IN_GAMN_SCALE, TileType.EMPTY));
 
-		tileMap = new int[TILE_IN_HEIGTH][TILE_IN_WIDTH];
+		try {
+			tileMap = Utils.levelParser("res\\level.lvl");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
-		tileMap[10][10] = TileType.BRICK.numeric();
-		tileMap[10][11] = TileType.BRICK.numeric();
-		tileMap[10][12] = TileType.BRICK.numeric();
-		tileMap[10][13] = TileType.BRICK.numeric();
-		tileMap[11][10] = TileType.BRICK.numeric();
-
+		grassCords = new ArrayList<>();
+		for (int i = 0; i < tileMap.length; i++) {
+			for (int j = 0; j < tileMap[i].length; j++) {
+				Tile tile = tiles.get(TileType.fromNumeric(tileMap[i][j]));
+				if (tile.type() == TileType.GRASS)
+				grassCords.add(new Point(j * SCALE_TILE_SIZE, i * SCALE_TILE_SIZE));
+		}
+		}
 
 	}
 
@@ -56,12 +68,17 @@ public class Level {
 	public void render(Graphics2D g) {
 		for (int i = 0; i < tileMap.length; i++) {
 			for (int j = 0; j <tileMap[i].length; j++) {
-				tiles.get(TileType.fromNumeric(tileMap[i][j])).render(g, j * SCALE_TILE_SIZE, i * SCALE_TILE_SIZE);
+				Tile tile = tiles.get(TileType.fromNumeric(tileMap[i][j]));
+				if (tile.type() != TileType.GRASS)
+				tile.render(g, j * SCALE_TILE_SIZE, i * SCALE_TILE_SIZE);
 			}
+		}
+	}
+
+	public void renderGrass(Graphics2D g) {
+		for (Point p :grassCords) {
+			tiles.get(TileType.GRASS).render(g, p.x, p.y);
 		}
 
 	}
-
-
-
 }
